@@ -1574,7 +1574,7 @@
 
 		a:hover {
 			border-bottom-color: transparent;
-			color: #4acaa8 !important;
+			color: #00A5CF !important;
 		}
 
 	strong, b {
@@ -1587,7 +1587,7 @@
 	}
 
 	p {
-		margin: 0 0 2.25em 0;
+		margin: 0 0 1.75em 0;
 	}
 
 	h1, h2, h3, h4, h5, h6 {
@@ -1702,7 +1702,7 @@
 	header p {
 		color: #aaa;
 		position: relative;
-		margin: 0 0 1.6875em 0;
+		margin: 0 0 1em 0;
 	}
 
 	header h2 + p {
@@ -1726,7 +1726,7 @@
 	}
 
 	header.major h2 {
-		color: #4acaa8;
+		color: #00A5CF;
 		font-size: 3.5em;
 	}
 
@@ -1789,7 +1789,7 @@
 		input[type="email"]:focus,
 		select:focus,
 		textarea:focus {
-			border-color: #4acaa8;
+			border-color: #00A5CF;
 		}
 
 	.select-wrapper {
@@ -1899,7 +1899,7 @@
 
 		input[type="checkbox"]:focus + label:before,
 		input[type="radio"]:focus + label:before {
-			border-color: #4acaa8;
+			border-color: #00A5CF;
 		}
 
 	input[type="checkbox"] + label:before {
@@ -2092,7 +2092,7 @@
 				}
 
 				ul.feature-icons li:before {
-					background: #4acaa8;
+					background: #00A5CF;
 					border-radius: 100%;
 					color: #ffffff;
 					display: block;
@@ -2379,7 +2379,7 @@
 		input[type="reset"].special,
 		input[type="button"].special,
 		.button.special {
-			background-color: #4acaa8;
+			background-color: #00A5CF;
 			color: #ffffff !important;
 		}
 
@@ -2461,8 +2461,8 @@
 		-webkit-justify-content: space-between;
 		-ms-justify-content: space-between;
 		justify-content: space-between;
-		background: #4acaa8;
-		color: #d1f1e9;
+		background: #00A5CF;
+		color: #DEFFFC;
 		height: 100%;
 		overflow-y: auto;
 		position: fixed;
@@ -2485,7 +2485,7 @@
 		}
 
 		#header a {
-			color: #d1f1e9;
+			color: #DEFFFC;
 		}
 
 			#header a:hover {
@@ -2512,7 +2512,7 @@
 			}
 
 			#header > header p {
-				color: #d1f1e9;
+				color: #DEFFFC;
 				font-style: italic;
 				margin: 1em 0 0 0;
 			}
@@ -2569,7 +2569,7 @@
 
 						#header > nav ul li a.active {
 							background: #fff;
-							color: #4acaa8 !important;
+							color: #00A5CF !important;
 						}
 
 					#header > nav ul li:first-child {
@@ -2601,7 +2601,7 @@
 
 	#one:before {
 		background-image: url("../../images/banner.jpg");
-		background-position: top right;
+		background-position: bottom center;
 		background-repeat: no-repeat;
 		background-size: cover;
 		content: '';
@@ -2848,7 +2848,7 @@
 					}
 
 					#titleBar .toggle:before {
-						background: #4acaa8;
+						background: #00A5CF;
 						color: #ffffff;
 						content: '\f0c9';
 						display: block;
