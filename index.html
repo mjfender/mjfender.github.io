@@ -120,7 +120,7 @@
 									</form>
                                     
                                     <!-- Customise the Thankyou Message People See when they submit the form: -->
-                                      <div style="display:none;" id="thankyou_message">
+                                      <div style="display:none;" class="thankyou_message">
                                         <h2>Thanks for the note &mdash;
                                           I'll get back to you soon!</h2>
                                       </div>
@@ -215,11 +215,11 @@
                                               xhr.onreadystatechange = function() {
                                                   console.log(xhr.status, xhr.statusText);
                                                   console.log(xhr.responseText);
-                                                  var formElements = form.querySelector(".form-elements")
+                                                  var formElements = document.querySelector("form#gform")
                                                   if (formElements) {
                                                     formElements.style.display = "none"; // hide form
                                                   }
-                                                  var thankYouMessage = form.querySelector(".thankyou_message");
+                                                  var thankYouMessage = document.querySelector(".thankyou_message");
                                                   if (thankYouMessage) {
                                                     thankYouMessage.style.display = "block";
                                                   }
