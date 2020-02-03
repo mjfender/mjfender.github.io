@@ -117,7 +117,7 @@
             document.body.removeChild(aux);
         }
 
-        $("#gear").on("change, keyup", makeMacros)
+        $("#gear").on("change blur paste", makeMacros)
 
         $("#copyMacro").click(function(e) {
             e.preventDefault()
@@ -129,7 +129,7 @@
             }, 1100)
         })
 
-        function makeMacros() {
+        function makeMacros(e) {
             var items = []
             var itemsToParse = $("#gear").val()
 
