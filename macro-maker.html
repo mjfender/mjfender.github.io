@@ -117,7 +117,7 @@
             document.body.removeChild(aux);
         }
 
-        $("#gear").on("change blur paste", makeMacros)
+        $("#gear").on("paste change blur mouseenter mouseleave", makeMacros)
 
         $("#copyMacro").click(function(e) {
             e.preventDefault()
