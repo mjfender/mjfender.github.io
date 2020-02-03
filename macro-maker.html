@@ -1,0 +1,177 @@
+<html>
+
+<head>
+    <title>Repair Macro-Maker</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-120234082-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-120234082-1');
+
+    </script>
+</head>
+
+<body>
+    <style>
+        body {
+            text-align: center;
+            font-size: 16px;
+        }
+
+        div.pageContain {
+            width: 100%;
+            max-width: 440px;
+            display: block;
+            margin: 30px auto;
+        }
+
+        textarea {
+            font-size: 16px;
+        }
+
+        #gear {
+            width: 440px;
+            height: 290px;
+        }
+
+        #gearFixMacro {
+            width: 440px;
+            height: 135px;
+        }
+
+        input {
+            width 150px;
+            height: 25px;
+            margin: 15px 0;
+        }
+
+        #resultContain {
+            display: none;
+        }
+
+        div.buttonContain {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            text-align: center;
+            max-width: 300px;
+            margin: 20px auto;
+        }
+
+        button {
+            display: block;
+            margin: 15px auto;
+            color: white;
+            height: 35px;
+            width: 110px;
+            border-radius: 3px;
+            font-size: 16px;
+        }
+
+        #makeMacro {
+            background-color: #2222C7;
+        }
+
+        #copyMacro {
+            background-color: #E0C18C;
+        }
+
+    </style>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <div class="pageContain">
+        <h1>Repair Macro-Maker</h1>
+        <p>Type "equip" and paste result below</p>
+        <textarea id="gear" placeholder="Paste here"></textarea>
+        <br>
+        <div id="resultContain">
+            <h2>Gear Fix Macro</h2>
+            <textarea id="gearFixMacro"> </textarea>
+            <div class="buttonContain">
+                <button id="makeMacro">Make Macro</button>
+                <button id="copyMacro">Copy Macro</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function copyToClipboard(elementId) {
+            // Create a "hidden" input
+            var aux = document.createElement("input");
+            // Assign it the value of the specified element
+            aux.setAttribute("value", document.getElementById(elementId).value);
+            console.log(aux);
+            // Append it to the body
+            document.body.appendChild(aux);
+            // Highlight its content
+            aux.select();
+            // Copy the highlighted text
+            document.execCommand("copy");
+
+            // Remove it from the body
+            document.body.removeChild(aux);
+        }
+
+        $("#gear").on("change, keyup", makeMacros)
+
+        $("#copyMacro").click(function(e) {
+            e.preventDefault()
+            copyToClipboard('gearFixMacro');
+            $this = $(this);
+            $this.html('Copied!');
+            setTimeout(function() {
+                $this.html('Copy Macro');
+            }, 1100)
+        })
+
+        function makeMacros() {
+            var items = []
+            var itemsToParse = $("#gear").val()
+
+            if (itemsToParse && itemsToParse.length > 0) {
+                var lines = itemsToParse.split(/\r?\n/);
+                lines.forEach(function(item, index) {
+                    if (item.length > 0) {
+                        let itemObj = {}
+                        let parsedItem = item.split(':')
+                        let location = parsedItem[0]
+                        parsedItem = parsedItem[parsedItem.length - 1]
+                        parsedItem = parsedItem.trim();
+                        if (parsedItem === "" || parsedItem === "nothing" || location.indexOf('Jewel') !== -1) return
+                        parsedItem = parsedItem.replace("a ", "")
+                        itemObj.name = parsedItem
+                        itemObj.holding = location.indexOf('Held') !== -1
+                        items.push(itemObj)
+                    }
+                })
+
+                function repairMaker(item, holding) {
+                    let equipVerb = holding ? 'hold ' : 'wear '
+                    let command = ''
+                    command += 'remove ' + item + "&";
+                    command += 'fix ' + item + "&";
+                    command += equipVerb + item + "&"
+                    return command
+                }
+                if (items.length > 0) {
+                    let gearfixMacro = ''
+                    items.forEach(function(item, index) {
+                        gearfixMacro += repairMaker(item.name, item.holding)
+                    })
+                    $('#gearFixMacro').val(gearfixMacro)
+                    $('#resultContain').show();
+                }
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
