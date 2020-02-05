@@ -117,7 +117,7 @@
             document.body.removeChild(aux);
         }
 
-        $("#gear").on("change, keyup", makeMacros)
+        $("#gear").on("paste change blur mouseenter mouseleave keyup", makeMacros)
 
         $("#copyMacro").click(function(e) {
             e.preventDefault()
@@ -129,7 +129,7 @@
             }, 1100)
         })
 
-        function makeMacros() {
+        function makeMacros(e) {
             var items = []
             var itemsToParse = $("#gear").val()
 
@@ -155,13 +155,17 @@
                     let command = ''
                     command += 'remove ' + item + "&";
                     command += 'fix ' + item + "&";
-                    command += equipVerb + item + "&"
+                    window.reequip.push(equipVerb + item + "&")
                     return command
                 }
                 if (items.length > 0) {
                     let gearfixMacro = ''
+                    window.reequip = []
                     items.forEach(function(item, index) {
                         gearfixMacro += repairMaker(item.name, item.holding)
+                    })
+                    window.reequip.forEach(function(command){
+                         gearfixMacro += command
                     })
                     $('#gearFixMacro').val(gearfixMacro)
                     $('#resultContain').show();
