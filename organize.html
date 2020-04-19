@@ -1,0 +1,291 @@
+<html>
+
+<head>
+    <title>Donation Chest Organizer</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-120234082-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-120234082-1');
+
+    </script>
+</head>
+
+<body>
+    <style>
+        body {
+            text-align: center;
+            font-size: 16px;
+        }
+
+        div.pageContain {
+            width: 100%;
+            max-width: 440px;
+            display: block;
+            margin: 30px auto;
+        }
+
+        textarea {
+            font-size: 14px;
+        }
+
+        #pastedContent {
+            width: 440px;
+            height: 290px;
+        }
+
+        #organizeMacro {
+            width: 440px;
+            height: 135px;
+        }
+
+        input {
+            width 150px;
+            height: 25px;
+            margin: 15px 0;
+        }
+
+        #resultContain {
+            display: none;
+        }
+
+        div.buttonContain {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            text-align: center;
+            max-width: 300px;
+            margin: 20px auto;
+        }
+
+        button {
+            display: block;
+            margin: 15px auto;
+            color: white;
+            height: 35px;
+            width: 110px;
+            border-radius: 3px;
+            font-size: 16px;
+        }
+
+        #makeMacro {
+            background-color: #2222C7;
+        }
+
+        #copyMacro {
+            background-color: #E0C18C;
+        }
+
+    </style>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <div class="pageContain">
+        <h1>Organizer Macro-Maker</h1>
+        <p>Type "look chest" or "bank" and paste list of items below</p>
+        <textarea id="pastedContent" placeholder="Paste here"></textarea>
+        <br>
+        <div id="resultContain">
+            <h2>Organizer Macro</h2>
+            <textarea id="organizeMacro"> </textarea>
+            <div class="buttonContain">
+                <button id="makeMacro">Make Macro</button>
+                <button id="copyMacro">Copy Macro</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function copyToClipboard(elementId) {
+            // Create a "hidden" input
+            var aux = document.createElement("input");
+            // Assign it the value of the specified element
+            aux.setAttribute("value", document.getElementById(elementId).value);
+//            console.log(aux);
+            // Append it to the body
+            document.body.appendChild(aux);
+            // Highlight its content
+            aux.select();
+            // Copy the highlighted text
+            document.execCommand("copy");
+
+            // Remove it from the body
+            document.body.removeChild(aux);
+        }
+
+        $("#pastedContent").on("paste change blur mouseenter mouseleave keyup", makeMacros)
+
+        $("#copyMacro").click(function(e) {
+            e.preventDefault()
+            copyToClipboard('organizeMacro');
+            $this = $(this);
+            $this.html('Copied!');
+            setTimeout(function() {
+                $this.html('Copy Macro');
+            }, 1100)
+        })
+
+        function makeMacros(e) {
+            var items = []
+            var itemsToParse = $("#pastedContent").val()
+
+
+            // parse text into an array of items
+            // // some may include ( 2) quantities 
+            if (itemsToParse && itemsToParse.length > 0) {
+                var lines = itemsToParse.split(/\r?\n/);
+                var type = ''
+
+                // determine if paste is from bank or chest
+                if (lines.length >= 2) {
+
+                    // remove blank lines
+                    lines = lines.filter(line => line.length > 0)
+
+                    if (lines[0].includes('Items in Strongbox') || lines[0].includes('1.') || lines[1].includes('1.')) {
+                        type = 'bank'
+                        if (lines[0].includes('Items in Strongbox')) lines = lines.splice(1,lines.length-1)
+                    } else {
+                        type = 'chest'
+//                        console.log(lines)
+                        if (lines[0].includes('contains:')) lines = lines.splice(1,lines.length-1)
+                        if (lines[1].includes('contains:')) lines = lines.splice(2,lines.length-1)
+                    }
+
+                    //  a / an, bank item numbers
+                    lines = lines.map( line => { 
+                        let newLine = line.toLowerCase()
+                        if (newLine.includes(' )')) newLine = newLine.split(' )')[1]
+                        if (newLine.includes('.)')) newLine = newLine.split('.)')[1]
+                        newLine = newLine.trim()
+                        return newLine
+                     })
+//                    console.log(lines, type)
+                }
+
+                // create objects out of items for easy sorting by enchant, quantity
+                var allObjects = lines.map( line => {
+                    let newObject = { 
+                        quantity: 1,
+                        enchant: '',
+                        name: ''
+                    }
+                    if (line.includes('(')) {
+                        let quantity = line.split(')')[0]
+                        newObject.name = line.split(')')[1].trim()
+                        quantity = quantity.replace('(','').trim()
+                        newObject.quantity = parseInt(quantity)
+                    } else {
+                        newObject.name = line.trim()
+                    }
+                    var enchantments = ['silvered', 'bright', 'shining', 'glowing', 'lustrous']
+                    enchantments.forEach( enchant => {
+                        if ( line.includes(enchant) ) {
+                            newObject.enchant = enchant
+                        }
+                    })
+
+                    if (newObject.enchant) newObject.name = line.split(newObject.enchant)[1].trim();
+                    let newName = newObject.name.replace(/,/g, "")
+                    newName = newName.replace(/^a\s/, '')
+                    newName = newName.replace(/^an\s/, '')
+                    // keep name to first 3 words
+                    let splitName = newName.split(' ')
+                    if (splitName.length > 3) newName = splitName.splice(0,3).join(' ')
+                    newObject.name = newName
+                    if (newObject.name.includes('and')) newObject.name = newObject.name.split('and')[0].trim()
+                    return newObject
+                })
+//                console.log(allObjects)
+
+                function getEnchantVal(enchant) {
+                    var enchants = { silvered: 1, bright: 2, shining: 3, glowing: 4, lustrous: 5} 
+                    if (enchant && enchants[enchant]) {
+                        return enchants[enchant]
+                    } else {
+                        return 0
+                    }
+                }
+                
+                allObjects.sort( (a, b) => {
+                    if(a.name < b.name) return -1
+                    if(a.name > b.name) return 1
+                    return 0;
+                })
+                
+                allObjects.sort( (a, b) => getEnchantVal(b.enchant) - getEnchantVal(a.enchant))
+
+                
+//                console.log(allObjects)
+
+                // for chest, group items into sets of 4
+                if (type === 'chest') {
+                    var actionSets = []
+
+                    var currentSetCount = 0
+                    var currentSet = []
+                    allObjects.forEach( object => {
+                        if ( currentSetCount <= 4 && object.quantity + currentSetCount <=4) {
+                            // push object into currentSet and increment currentSetCount
+                            currentSet.push(object)
+                            currentSetCount += object.quantity
+                        } else {
+                            // push currentSet to actionSets and start new currentSet
+                            actionSets.push(currentSet)
+                            currentSet = []
+                            currentSetCount = 0
+                            currentSet.push(object)
+                            currentSetCount += object.quantity
+                        }
+                    })
+                    actionSets.push(currentSet)
+
+
+                    var macro = ''
+                  
+                    for (var n=0; n < actionSets.length; n++) {
+                        for (var i=0; i < actionSets[n].length; i++) {
+                            for (var q=0; q < actionSets[n][i].quantity; q++) {
+                                let enchantment =  actionSets[n][i].enchant ? " " + actionSets[n][i].enchant : "";
+                                macro += "get" +  enchantment + " " + actionSets[n][i].name + " chest&"
+                                macro += "put" + enchantment + " " + actionSets[n][i].name + " chest&"
+                            }
+                        }
+                    }
+
+                   
+
+//                    console.log(macro)
+                } else {
+                    var macro = ''
+                    // bank, withdraw all and then deposit in correct order
+                    for (var n=0; n < allObjects.length; n++) {
+                        for (var q=0; q < allObjects[n].quantity; q++) {
+                            let enchantment =  allObjects[n].enchant ? " " + allObjects[n].enchant : "";
+                            macro += "withdraw" +  enchantment + " " + allObjects[n].name + "&"
+                        }                 
+                    }
+                    for (var n=0; n < allObjects.length; n++) {
+                        for (var q=0; q < allObjects[n].quantity; q++) {
+                            let enchantment =  allObjects[n].enchant ? " " + allObjects[n].enchant : "";
+                            macro += "deposit" + enchantment + " " + allObjects[n].name + "&"
+                        }     
+                    }
+                }
+                
+                $('#organizeMacro').val(macro)
+                $('#resultContain').show();
+                
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
