@@ -198,6 +198,7 @@
                     if (splitName.length > 3) newName = splitName.splice(0,3).join(' ')
                     newObject.name = newName
                     if (newObject.name.includes('and')) newObject.name = newObject.name.split('and')[0].trim()
+                    if (newObject.name.includes(',')) newObject.name = newObject.name.split(',')[0].trim()
                     return newObject
                 })
 //                console.log(allObjects)
@@ -251,8 +252,8 @@
                         for (var i=0; i < actionSets[n].length; i++) {
                             for (var q=0; q < actionSets[n][i].quantity; q++) {
                                 let enchantment =  actionSets[n][i].enchant ? " " + actionSets[n][i].enchant : "";
-                                macro += "get" +  enchantment + " " + actionSets[n][i].name + " chest&"
-                                macro += "put" + enchantment + " " + actionSets[n][i].name + " chest&"
+                                macro += "get" +  enchantment + " " + actionSets[n][i].name + " donation&"
+                                macro += "put" + enchantment + " " + actionSets[n][i].name + " donation&"
                             }
                         }
                     }
