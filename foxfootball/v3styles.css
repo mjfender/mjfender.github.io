@@ -1,0 +1,146 @@
+body, html {
+  overflow-x: hidden;
+  width: 100%;
+}
+.col-md-2 {
+  padding: 0px !important;
+  margin: 5px !important;
+  width: 15.666667% !important;
+}
+
+.btn_expand {
+  display: inline-block;
+  border-radius: 3px;
+  border-color: #F57C00; 
+  border-width: 2px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.15);
+  font-size: 1.1em;
+  padding: 15px 20px;
+  font-weight: 700;
+  color: #fff;
+  background: #F57C00;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.cta-wrapper {
+  position: relative;
+  z-index: 101;
+}
+
+a.btn {
+  text-align: center;
+}
+
+a.btn.CTA {
+    display: inline-block;
+    font-size: 23px;
+    text-shadow: 0px 0px 3px rgba(0,0,0,.3);
+}
+
+#apps div.content .centercta {
+    margin-bottom: 10px;
+}
+
+@media screen and (max-width: 736px) and (min-width: 320px) {
+    a.btn.CTA {
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 736px) and (min-width: 320px) {
+    a.btn.CTA:after {
+        font-size: 18px;
+    }
+}
+
+
+.btn_expand:hover, .btn_expand:focus {
+  color: #fff;
+  background: #E87400;
+}
+
+#channels .col-md-2 .box {min-height: 95px !important;}
+
+.smnetworks {
+  width: 110px;
+  height: auto !important;
+  margin: 8px 5px !important;
+}
+
+@media (max-width: 1200px) {
+  .col-md-2 {
+    float: left !important;
+    width: 15.5% !important;
+  }
+
+}
+
+@media (max-width: 991px) {
+  #apps .content img {
+    /* float: left !important; */
+    width: 30% !important;
+    margin: 3px !important;
+  }
+  #channels .col-md-2 .box {
+    min-height: 70px !important;
+  }
+  #channels .content .box {
+    float: left !important;
+    width: 45% !important;
+    margin: 3px !important;
+    min-height: 100px !important;
+  }
+  #channels .box img {
+    width: 75% !important;
+  }
+  .col-md-2 {
+    float: left !important;
+    width: 18% !important;
+  }
+  .col-md-3 {
+    width: 33% !important;
+  }
+  #faqs .content .box {
+    width: 100% !important;
+  }
+  .smnetworks {
+    width: 90px !important;
+  }
+}
+
+
+@media (max-width: 580px) {
+    /* For Over-video Network Logo (e.g. lp/AMC, TNT)    */
+  .videoFloatLogo {
+        max-width: 75px !important;
+        bottom: 75px !important;
+        right: 15px !important;
+        z-index: 1;
+        position: relative;
+  }
+  .col-md-2 {
+    float: left !important;
+    width: 22% !important;
+  }
+  .col-md-3 {
+    width: 50% !important;
+  }
+  #apps .content img {
+    float: left !important;
+    width: 30% !important;
+    margin: 3px !important;
+  }
+
+}
+
+@media (max-width: 480px) {
+  
+  .col-md-2 {
+    float: left !important;
+    width: 22% !important;
+  }
+
+  #channels .col-md-2 .box {min-height: 50px !important;}
+
+}

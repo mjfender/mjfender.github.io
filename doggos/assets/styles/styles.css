@@ -25,6 +25,21 @@
     font-style: normal
 }
 
+@-webkit-keyframes animatedGradient {
+    0% {
+        background-position: 0% 50%;
+        display: none;
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+}
+
 @keyframes animatedGradient {
     0% {
         background-position: 0% 50%;
@@ -40,36 +55,67 @@
     }
 }
 
-@keyframes popupCharlie {
+@-webkit-keyframes popupCharlie {
     0% {
-        transform: translateY(0)
+        -webkit-transform: translateY(0);
+                transform: translateY(0)
     }
 
     50% {
-        transform: translateY(-171px);
+        -webkit-transform: translateY(-171px);
+                transform: translateY(-171px);
     }
 
     100% {
-        transform: translateY(0);
+        -webkit-transform: translateY(0);
+                transform: translateY(0);
+    }
+}
+
+@keyframes popupCharlie {
+    0% {
+        -webkit-transform: translateY(0);
+                transform: translateY(0)
+    }
+
+    50% {
+        -webkit-transform: translateY(-171px);
+                transform: translateY(-171px);
+    }
+
+    100% {
+        -webkit-transform: translateY(0);
+                transform: translateY(0);
     }
 }
 
 header {
     width: 100%;
     height: 60px;
-    /* background-image: linear-gradient(259deg, #004FC6 0%, #6987D7 97%); */
     margin: 0;
-    animation: animatedGradient 10s ease infinite;
+    -webkit-animation: animatedGradient 10s ease infinite;
+            animation: animatedGradient 10s ease infinite;
+    background-image: -o-linear-gradient(359deg,#004FC6 0%, #6987D7 97%);
     background-image: linear-gradient(-269deg,#004FC6 0%, #6987D7 97%);
     background-size: 200% 200%;
     position: fixed;
     top: 0;
+    -webkit-transition: -webkit-transform .1s linear;
+    transition: -webkit-transform .1s linear;
+    -o-transition: transform .1s linear;
     transition: transform .1s linear;
+    transition: transform .1s linear, -webkit-transform .1s linear;
 }
 
 header.reduced {
-    transform: translateY(-60px);
+    -webkit-transform: translateY(-60px);
+        -ms-transform: translateY(-60px);
+            transform: translateY(-60px);
+    -webkit-transition: -webkit-transform .25s linear;
+    transition: -webkit-transform .25s linear;
+    -o-transition: transform .25s linear;
     transition: transform .25s linear;
+    transition: transform .25s linear, -webkit-transform .25s linear;
 }
 
 header nav {
@@ -107,14 +153,24 @@ header nav {
 .running-wild__featured-doggo-section {
     width: 100%;
     padding: 70px 75px 60px 75px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
 }
 @media only screen and (max-width: 768px) {
     .running-wild__featured-doggo-section {
-        flex-direction: column-reverse;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: reverse;
+            -ms-flex-direction: column-reverse;
+                flex-direction: column-reverse;
         padding: 25px 30px 45px 30px;
     }
 }
@@ -124,7 +180,8 @@ header nav {
 
     .running-wild__featured-doggo--description {
         padding: 0 40px 0 63px;
-        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+                box-sizing: border-box;
     }   
         @media only screen and (max-width: 1023px) {
             .running-wild__featured-doggo--description {
@@ -157,11 +214,14 @@ header nav {
 }
 
 .running-wild__all-doggos--list {
+    display: -ms-grid;
     display: grid;
     grid-column-gap: 75px;
     grid-row-gap: 20px;
     grid-template-columns: repeat(auto-fit, 240px);
     justify-items: start;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
     justify-content: space-between;
 }
 
@@ -201,8 +261,10 @@ header nav {
     .running-wild__all-doggos--doggo-image {
         width: 258px;
         height: 192px;
-        object-fit: cover;
-        object-position: center 20%;
+        -o-object-fit: cover;
+           object-fit: cover;
+        -o-object-position: center 20%;
+           object-position: center 20%;
     }
 }
 
@@ -218,7 +280,8 @@ header nav {
 }
 .charComic.poppedUp {
     position: fixed;
-    animation: popupCharlie 10s ease-in .5s 1 normal;
+    -webkit-animation: popupCharlie 10s ease-in .5s 1 normal;
+            animation: popupCharlie 10s ease-in .5s 1 normal;
 }
 
 h2 {
@@ -255,11 +318,11 @@ p, figcaption {
     }
 }
 
-
 .max-width-container {
     max-width: 1024px;
     margin: 0 auto;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
 }
 /*! HTML5 Boilerplate v6.0.1 | MIT License | https://html5boilerplate.com/ */
 html,
@@ -267,7 +330,8 @@ body {
     background-color: white;
     color: #586377;
     font-family: "Circular-Book", "Arial", "Trebuchet MS", sans-serif;
-    font-variant-ligatures: no-common-ligatures;
+    -webkit-font-variant-ligatures: no-common-ligatures;
+            font-variant-ligatures: no-common-ligatures;
     font-size: 16px;
     font-weight: normal;
     line-height: 24px;
@@ -275,22 +339,14 @@ body {
     -webkit-font-smoothing: antialiased
 }
 
-body.no-scroll {
-    overflow: hidden
-}
-
-.async-hide {
-    opacity: 0 !important
-}
-
 ::-moz-selection {
-    background: #4462c9;
+    background:#004FC6;
     color: white;
     text-shadow: none
 }
 
 ::selection {
-    background: #4462c9;
+    background: #004FC6;
     color: white;
     text-shadow: none
 }
@@ -318,36 +374,6 @@ img,
 svg,
 video {
     vertical-align: middle
-}
-
-fieldset {
-    border: 0;
-    margin: 0;
-    padding: 0
-}
-
-textarea {
-    resize: vertical
-}
-
-.browserupgrade {
-    background: #ccc;
-    color: black;
-    margin: 0.2em 0;
-    padding: 0.2em 0
-}
-
-a {
-    color: #4462c9;
-    font-size: 16px;
-    padding: 15px 0;
-    text-decoration: none;
-    transition: color .35s linear
-}
-
-a:hover {
-    color: #2b4395;
-    text-decoration: none
 }
 
 @media only screen and (max-width: 480px) {
