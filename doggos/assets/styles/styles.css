@@ -137,7 +137,7 @@ header nav {
 }
     .running-wild__hero-section h1 {
         text-align: center;
-        font-family: 'Circular-Bold', Helvetica, sans-serif;
+        font-family: "Circular-Bold", "Arial", sans-serif;
         font-size: 40px;
         color: #333333;
         padding: 43px 0;
@@ -231,7 +231,6 @@ header nav {
         max-width: 450px;
         margin: 0 auto;
         grid-template-columns: repeat(auto-fit, 252px);
-        justify-items: center;
     }
 }
   
@@ -289,7 +288,7 @@ h2 {
     margin-top: 0;
     margin-bottom: 16px;
     font-size: 28px;
-    font-family: 'Circular-Bold', Helvetica, sans-serif;
+    font-family: "Circular-Bold", "Arial", sans-serif;
 }
 @media only screen and (max-width: 768px) {
     h2 {
@@ -329,7 +328,7 @@ html,
 body {
     background-color: white;
     color: #586377;
-    font-family: "Circular-Book", "Arial", "Trebuchet MS", sans-serif;
+    font-family: "Circular-Book", 'Arial', "Trebuchet MS", sans-serif;
     -webkit-font-variant-ligatures: no-common-ligatures;
             font-variant-ligatures: no-common-ligatures;
     font-size: 16px;
