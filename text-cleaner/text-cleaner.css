@@ -1,0 +1,71 @@
+body {
+    font-size: 100%;
+    font-family: Arial, Helvetica, Calibri, sans-serif;
+    color: gray;
+}
+
+pre {
+    color: rgba(255, 255, 255, 0.9);
+    background-color: #525252;
+    padding: 1em;
+    border-radius: 2px; 
+    text-align: center;
+    }
+
+.html {
+    color: #4141d4;
+    margin-bottom: 15px;
+    }
+
+.text {
+    color: #813781; }
+
+div.sectionContainer {
+    margin: 1.5em 0; 
+    }
+div.sectionContainer div.sectionTitle h2 {
+    display: inline-block;
+    margin: 0 1em 0 0; 
+    }
+ 
+div.htmlOptions {
+     display: inline-block; 
+     vertical-align: middle;
+}
+
+div.htmlOptions input {
+    margin-left: 10px;
+}
+    
+  div.sectionContainer textarea.bodyCopy {
+    width: 97%;
+    min-height: 10em;
+    resize: vertical;
+    margin: auto;
+    color: gray;
+    border: none;
+    border-left: 8px solid gray;
+    border-radius: 2px;
+    background: whitesmoke;
+    padding: .5em;
+    margin-top: 10px;
+
+}
+
+div.sectionContainer textarea.bodyCopy.html {
+border-left-color: rgba(65, 65, 212, 0.8); }
+
+div.sectionContainer textarea.bodyCopy.text {
+  border-left-color: rgba(129, 55, 129, 0.8); }
+
+@media only screen and (max-width: 800px) {
+    pre {
+        font-size: .7em;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    pre {
+        font-size: 8px;
+    }
+}

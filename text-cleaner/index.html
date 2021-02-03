@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<html lang="EN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>[vbcc]</title>
+    <link rel="stylesheet" type="text/css" href="text-cleaner.css">
+</head>
+
+<body>
+    <pre>
+ _____  ________  _ _____    ____  _     _____ ____  _      _____ ____ 
+/__ __\/  __/\  \///__ __\  /   _\/ \   /  __//  _ \/ \  /|/  __//  __\
+  / \  |  \   \  /   / \    |  /  | |   |  \  | / \|| |\ |||  \  |  \/|
+  | |  |  /_  /  \   | |    |  \__| |_/\|  /_ | |-||| | \|||  /_ |    /
+  \_/  \____\/__/\\  \_/    \____/\____/\____\\_/ \|\_/  \|\____\\_/\_\
+                                                                       
+    </pre>
+    <p>Paste text into the SOURCE box, then tab/click out to have it cleaned. This will remove unprintable characters as well as convert special characters to the appropriate text or HTML equivalent.</p>
+
+
+    <div class="sectionContainer input">
+        <div class="sectionTitle">
+            <h2 class="input">SOURCE</h2>
+        </div>
+        <textarea class="bodyCopy input" autofocus></textarea>
+    </div>
+    <div class="sectionContainer html">
+        <div class="sectionTitle">
+            <h2 class="html">HTML COPY</h2>
+            <div class="htmlOptions">
+                <strong>Format:</strong> <label>
+                    <input class="htmlType email" name="htmlType" type="radio" checked>Email</label>
+                <label>
+                    <input class="htmlType web" name="htmlType" type="radio">Web</label>
+                <br>
+                <strong>Punctuation Type:</strong>
+               <label>
+                    <input class="smartType dumb" name="smartType" type="radio" checked>Dumb</label>
+                <label>
+                    <input class="smartType smart" name="smartType" type="radio">Smart</label>
+            </div>
+            
+        </div>
+        <textarea class="bodyCopy html"></textarea>
+    </div>
+    <div class="sectionContainer text">
+        <div class="sectionTitle">
+            <h2 class="text">TEXT COPY</h2>
+        </div>
+        <textarea class="bodyCopy text"></textarea>
+    </div>
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            var windowHeight = $(window).innerHeight();
+            if (windowHeight > 100) {
+                windowHeight *= .25;
+                $('textarea.bodyCopy').css({
+                    height: windowHeight
+                });
+            }
+            var htmlReplacersSmart = {
+                '’': '&rsquo;',
+                '’': '&rsquo;',
+                '\'': '&rsquo;',
+                '‘': '&lsquo;',
+                '—': '&mdash;',
+                '--': '&mdash;',
+                '–': '&mdash;',
+                '­­': '&mdash;',
+                '­': '-',
+                '& ': '&amp; ',
+//                '<': '&lt;',
+//                '>': '&gt;',
+                '“': '&ldquo;',
+                '”': '&rdquo;',
+                '©': '&copy;',
+                '®': '&reg;',
+                '™': '&trade;',
+                '·': '&bull;',
+                '•': '&bull;',
+                '●': '&bull;',
+                'PS\.': 'P.S.',
+                '…': '&hellip;',
+                '»': '&raquo;',
+                '​': ''
+            };
+            var htmlReplacersDumb = {
+                '’': '\'',
+                '’': '\'',
+                '\'': '\'',
+                '‘': '\'',
+                '—': '&mdash;',
+                '--': '&mdash;',
+                '–': '&mdash;',
+                '­­': '&mdash;',
+                '­': '-',
+                '& ': '&amp; ',
+//                '<': '&lt;',
+//                '>': '&gt;',
+                '“': '"',
+                '”': '"',
+                '©': '&copy;',
+                '®': '&reg;',
+                '™': '&trade;',
+                '·': '&bull;',
+                '•': '&bull;',
+                '●': '&bull;',
+                //'PS\.': 'P.S.',
+                '…': '&hellip;',
+                '»': '&raquo;',
+                '​': ''
+            };
+            var textReplacers = {
+                '’': '\'',
+                '&rsquo;': '\'',
+                '‘': '\'',
+                '—': '--',
+                '—': '--',
+                '–': '--',
+                '­­': '--',
+                '­': '-',
+                '&mdash;': '--',
+                '&amp;': '&',
+                '&copy;': '(c)',
+                '&reg;': '(r)',
+                '&trade;': '(tm)',
+                '&nbsp;': ' ',
+                '“': '"',
+                '”': '"',
+                '©': '(c)',
+                '®': '(r)',
+                '™': '(tm)',
+                '·': '-- ',
+                '•': '-- ',
+                '●': '-- ',
+                //'PS\.': 'P.S.',
+                '…': '...',
+                '»': '>>',
+                '​': ''
+            };
+
+            var inputBodyCopy = $('textarea.bodyCopy.input');
+            var htmlBodyCopy = $('textarea.bodyCopy.html');
+            var textBodyCopy = $('textarea.bodyCopy.text');
+            var ctr = 0;
+
+            inputBodyCopy.change(function() {
+                //COMMON CLEANING ON INPUT FIELD: trim, remove multiple spaces, convert 3 types of new lines to \n
+                var cleanStr = inputBodyCopy.val().trim();
+                cleanStr = cleanStr.replace(/\003|\011|\u00A0/gm, ' '); //convert ?, tab, nbsp to space
+                cleanStr = cleanStr.replace(/(\r\n|\r)/gm, '\n'); //convert all forms of new lines to \n
+                cleanStr = cleanStr.replace(/\n{3,}/gm, '\n\n'); //max 2 line breaks in a row
+                cleanStr = cleanStr.replace(/ {2,}/gm, ' '); //kill multiple spaces
+                cleanStr = cleanStr.replace(/ {1,}\n/gm, '\n'); //kill trailing spaces
+                cleanStr = cleanStr.replace(/[\000-\011]|[\016-\037]/gm, '[*******]'); //replace hidden characters with something obvious
+
+                inputBodyCopy.val(cleanStr);
+                var smartOrDumb = $('input.smartType:checked')[0].classList[1];
+
+                //CLEAN FOR HTML
+                htmlBodyCopy.val(selectCleanHtml(cleanStr, smartOrDumb));
+
+                //CLEAN FOR TEXT
+                textBodyCopy.val(cleanText(cleanStr));
+            });
+
+            $('input.htmlType, input.smartType').change(function() {
+                var cleanStr = inputBodyCopy.val().trim();
+                
+                var smartOrDumb = $('input.smartType:checked')[0].classList[1];
+                console.log(smartOrDumb)
+                htmlBodyCopy.val(selectCleanHtml(cleanStr, smartOrDumb));
+            });
+
+            function selectCleanHtml(cleanStr, smartOrDumb) {
+                
+                if ($('input.htmlType.web').prop('checked')) {
+                    return cleanHtmlWeb(cleanStr, smartOrDumb);
+                } else {
+                    return cleanHtmlEmail(cleanStr, smartOrDumb);
+                }
+            }
+            
+            function identifyReplacers(smartOrDumb) {
+                console.log(smartOrDumb)
+                if (smartOrDumb == 'smart') {
+                    return htmlReplacersSmart;
+                } else { 
+                    return htmlReplacersDumb;
+                }
+            }
+
+            function cleanHtmlEmail(cleanStr, smartOrDumb) {
+                cleanStr = cleanStr.replace(/(\r\n|\n|\r)/gm, '\n<br />'); //convert new lines to html
+                
+                var replacers = identifyReplacers(smartOrDumb);
+                return standardReplace(cleanStr, replacers);
+            }
+
+            function cleanHtmlWeb(cleanStr, smartOrDumb) {
+                var lineList = cleanStr.split(/\n/gm);
+                var replacers = identifyReplacers(smartOrDumb);
+                for (var i = 0; i < lineList.length; i++) {
+                    if (typeof lineList[i] === 'string' && lineList[i].trim() !== '') {
+                        lineList[i] = '<p>' + standardReplace(lineList[i], replacers) + '</p>';
+                    }
+                }
+                return lineList.join('\n');
+            }
+
+            function cleanText(cleanStr) {
+                return standardReplace(cleanStr, textReplacers);
+            }
+
+            function standardReplace(sourceText, replaceList) {
+                for (var key in replaceList) {
+                    var re = new RegExp(key, 'gm');
+                    sourceText = sourceText.replace(re, replaceList[key]);
+                }
+                return sourceText;
+            }
+
+        });
+    </script>
+</body>
+
+</html>
